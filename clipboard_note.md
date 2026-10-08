@@ -376,3 +376,66 @@ Hyprland Wayland clipboard
 [1]: https://github.com/vmware/open-vm-tools/issues/792?utm_source=chatgpt.com "[Wayland] Broken clipboard and drag-and-drop in VMware guests using open-vm-tools · Issue #792 · vmware/open-vm-tools"
 [2]: https://github.com/krisztianfekete/clipway?utm_source=chatgpt.com "GitHub - krisztianfekete/clipway: Host - Guest clipboard for wlroots Wayland compositors · GitHub"
 [3]: https://github.com/vmware/open-vm-tools/blob/master/ReleaseNotes.md?utm_source=chatgpt.com "open-vm-tools/ReleaseNotes.md at master · vmware/open-vm-tools · GitHub"
+Если ты имеешь в виду, чтобы обычный системный clipboard Ubuntu/Wayland (Ctrl+C/Ctrl+V) работал с Neovim, то в Hyprland это довольно просто.
+
+1. Установи wl-clipboard
+sudo apt install wl-clipboard
+
+Проверь:
+
+wl-copy <<< "hello"
+wl-paste
+
+Должно вывести:
+
+hello
+2. Настрой Neovim
+
+В init.lua добавь:
+
+vim.opt.clipboard = "unnamedplus"
+
+После этого:
+
+"+y / "+p → системный clipboard
+обычные y / p → тоже системный clipboard
+Ctrl+V в других приложениях → вставит то, что ты скопировал через y
+Ctrl+C в других приложениях → можно вставить в Neovim через p
+
+То есть, например, в Neovim:
+
+yy
+
+скопирует строку в системный clipboard.
+
+А:
+
+p
+
+вставит содержимое системного clipboard.
+
+3. Проверить из Neovim
+
+Открой:
+
+nvim
+
+и выполни:
+
+:checkhealth vim.provider
+
+Также:
+
+:echo has('clipboard')
+
+Должно быть:
+
+1
+
+И:
+
+:echo &clipboard
+
+должно показать:
+
+unnamedplus
