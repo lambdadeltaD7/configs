@@ -1,0 +1,7 @@
+scriptsDir = "$HOME/.config/hypr/scripts" 
+terminal    = "kitty"
+fileManager = "kitty yazi"
+menu        = "wofi"
+browser     = "firefox"
+run_vpn = "[workspace 5 silent] $HOME/apps/v2rayN-linux-64/v2rayN"
+run_browser = "[workspace 2 silent] firefox"
